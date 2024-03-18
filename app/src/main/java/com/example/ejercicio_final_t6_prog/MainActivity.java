@@ -1,6 +1,10 @@
 package com.example.ejercicio_final_t6_prog;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
+    EditText editText1, editText2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,5 +25,15 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        editText1 = findViewById(R.id.editTextLugar);
+        editText2 = findViewById(R.id.editTextDescripcion);
     }
+
+    public void addDatos (View view) {
+        Intent intent = new Intent(this, SecondActivity.class);
+        intent.putExtra("Lugar", editText1.getText().toString());
+        intent.putExtra("Descripcion", editText2.getText().toString());
+        startActivity(intent);
+    }
+
 }
