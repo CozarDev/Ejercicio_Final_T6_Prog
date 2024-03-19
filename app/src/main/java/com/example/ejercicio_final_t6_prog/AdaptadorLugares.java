@@ -48,4 +48,9 @@ public class AdaptadorLugares extends RecyclerView.Adapter<AdaptadorLugares.Celd
             tvDescripcion = itemView.findViewById(R.id.textViewDescripcion);
         }
     }
+
+    public void aniadirLugar (Lugar lugar){
+        listado.add(lugar);
+        notifyDataSetChanged();
+    }
 }

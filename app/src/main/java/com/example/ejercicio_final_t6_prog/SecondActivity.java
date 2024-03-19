@@ -1,6 +1,7 @@
 package com.example.ejercicio_final_t6_prog;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -11,9 +12,15 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class SecondActivity extends AppCompatActivity {
+    private ArrayList<Lugar> lugares;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,18 +32,49 @@ public class SecondActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        Intent intent = getIntent();
-        String lugar = intent.getStringExtra("Lugar");
-        String descripcion = intent.getStringExtra("Descripcion");
-
-        ArrayList<Lugar> lugares = new ArrayList<>();
-
+        cargarDatos();
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         AdaptadorLugares adaptadorLugares = new AdaptadorLugares(lugares);
         recyclerView.setAdapter(adaptadorLugares);
+
+
+        Intent intent = getIntent();
+        String lugar = intent.getStringExtra("Lugar");
+        String descripcion = intent.getStringExtra("Descripcion");
+
+        if (Objects.requireNonNull(lugar).isEmpty() || Objects.requireNonNull(descripcion).isEmpty()){
+            adaptadorLugares.aniadirLugar(new Lugar(lugar, descripcion));
+        }
+
+        guardarDatos();
+    }
+
+    private void guardarDatos() {
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        Gson gson = new Gson();
+
+        String json = gson.toJson(lugares);
+        editor.putString("lugares", json);
+        editor.apply();
+    }
+
+    private void cargarDatos() {
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+        Gson gson = new Gson();
+
+        String json = sharedPreferences.getString("lugares", null);
+
+        Type type = new TypeToken<ArrayList<Lugar>>() {}.getType();
+
+        lugares = gson.fromJson(json, type);
+
+        if (lugares == null){
+            lugares = new ArrayList<>();
+        }
     }
 }
