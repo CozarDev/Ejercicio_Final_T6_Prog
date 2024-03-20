@@ -3,6 +3,7 @@ package com.example.ejercicio_final_t6_prog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,7 +46,9 @@ public class SecondActivity extends AppCompatActivity {
         String lugar = intent.getStringExtra("Lugar");
         String descripcion = intent.getStringExtra("Descripcion");
 
-        if (Objects.requireNonNull(lugar).isEmpty() || Objects.requireNonNull(descripcion).isEmpty()){
+        if (Objects.equals(lugar, "") || Objects.equals(descripcion, "")){
+            Toast.makeText(this, "No se han añadido datos nuevos", Toast.LENGTH_SHORT).show();
+        } else {
             adaptadorLugares.aniadirLugar(new Lugar(lugar, descripcion));
         }
 
