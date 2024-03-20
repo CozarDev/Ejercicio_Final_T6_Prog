@@ -28,7 +28,11 @@ public class MainActivity extends AppCompatActivity {
         editText1 = findViewById(R.id.editTextLugar);
         editText2 = findViewById(R.id.editTextDescripcion);
     }
-
+    protected void onStart() {
+        super.onStart();
+        editText1.setText("");
+        editText2.setText("");
+    }
     public void addDatos (View view) {
         Intent intent = new Intent(this, SecondActivity.class);
         intent.putExtra("Lugar", editText1.getText().toString());
