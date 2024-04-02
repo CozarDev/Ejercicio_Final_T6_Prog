@@ -28,11 +28,16 @@ public class MainActivity extends AppCompatActivity {
         editText1 = findViewById(R.id.editTextLugar);
         editText2 = findViewById(R.id.editTextDescripcion);
     }
+
+    //Reinicio los editText para que estén los campos vacíos
     protected void onStart() {
         super.onStart();
         editText1.setText("");
         editText2.setText("");
     }
+
+    /*Listener del botón que se encarga de recoger los datos de los editText y enviarlos
+    a la pantalla secundaria donde se visualiza la lista*/
     public void addDatos (View view) {
         Intent intent = new Intent(this, SecondActivity.class);
         intent.putExtra("Lugar", editText1.getText().toString());

@@ -33,7 +33,11 @@ public class SecondActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        //Cargamos los posibles datos que existan en el json, si no inicializamos el array
         cargarDatos();
+
+        //Instanciamos el recyclerview con los datos cargados
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
@@ -41,17 +45,19 @@ public class SecondActivity extends AppCompatActivity {
         AdaptadorLugares adaptadorLugares = new AdaptadorLugares(lugares);
         recyclerView.setAdapter(adaptadorLugares);
 
-
+        //Recogemos los datos que se hayan cargado en el Intent de la primera pantalla
         Intent intent = getIntent();
         String lugar = intent.getStringExtra("Lugar");
         String descripcion = intent.getStringExtra("Descripcion");
 
+        //Añadimos dichos datos al ArrayList o simplemente no añadimos nada para poder visualizar la pantalla del listado
         if (Objects.equals(lugar, "") || Objects.equals(descripcion, "")){
             Toast.makeText(this, "No se han añadido datos nuevos", Toast.LENGTH_SHORT).show();
         } else {
             adaptadorLugares.aniadirLugar(new Lugar(lugar, descripcion));
         }
 
+        //Guardamos los datos del ArrayList en el json
         guardarDatos();
     }
 
